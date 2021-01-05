@@ -1,0 +1,90 @@
+<% if current_user.admin? %>
+  <% if @shifts.any? %>
+    <%= form_with model: @shifts,url: shift_path(@day), method: :put, data: { confirm: 'Are you sure?' }, local: true do |f| %>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>日付</th>
+          <th>時間帯</th>
+          <th>名前</th>
+          <th>true/false</th>
+        </tr>
+      </thead>
+      <tbody>
+          <% @shifts.each do |shift| %>
+            <% @count += 1 %>
+            <tr>
+              <td><%= shift.designated_on.strftime("%m月%d日(#{@dw[shift.designated_on.wday]})") %></td>
+              <td><%= @ki[shift.kind] %></td>
+              <td><%= shift.user.username %></td>
+              <td><%= f.check_box :shift_ids, {checked: shift.determine,type: 'checkbox', class: 'checkbox-select', id: "checkbox#{@count}", multiple: true}, shift.id %></td>
+            </tr>
+          <% end %>
+      </tbody>
+    </table>
+    <%= f.submit '登録', class: 'btn btn-primary' %>
+    <% end %>
+  <% end %>
+<% else %>
+  <h2>希望日時を登録してください。</h2>
+  <%= form_with(model: @shift, local: true) do |f| %>
+    <div class="form-group">
+     <%= f.label :designated_on, '日付' %>
+     <%= f.date_field :designated_on,{ class: 'form-control col-sm-5' , required: true } %>
+    </div>
+    <label class="control-label">時間帯</label></br>
+    <div class="form-check form-check-inline">
+    <label class="form-check-label" ><%= check_box "type", "1"  %> S1</label>
+    </div>
+    <div class="form-check form-check-inline">
+    <label class="form-check-label" ><%= check_box "type", "2"  %> S2</label>
+    </div>
+    <div class="form-check form-check-inline">
+    <label class="form-check-label" ><%= check_box "type", "3" %> A</label>
+    </div>
+    <div class="form-check form-check-inline">
+    <label class="form-check-label" ><%= check_box "type", "4" %> B</label>
+    </div>
+    <div class="form-check form-check-inline">
+    <label class="form-check-label" ><%= check_box "type", "5" %> C</label>
+    </div>
+    <div class="form-check form-check-inline">
+    <label class="form-check-label" ><%= check_box "type", "6" %> 日曜特訓</label>
+    </div>
+    
+    <div class="form-group">
+      <%= f.submit '送信', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+  
+  <h2>登録済みの希望日時</h2>
+  <% if @shifts.any? %>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>日付</th>
+          <th>時間帯</th>
+          <th>action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @shifts.each do |shift| %>
+          <tr>
+            <td><%= shift.designated_on.strftime("%m月%d日(#{@dw[shift.designated_on.wday]})") %></td>
+            <td><%= @ki[shift.kind] %></td>
+            <td>
+              <% if shift.determine == false %>
+                <%= link_to 'delete', shift, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+              <% else %>
+                <span class="badge badge-success">確定済み</span>
+            　<% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @shifts %>
+  <% else %>
+  <div>なし</div>
+  <% end %>
+<% end %>

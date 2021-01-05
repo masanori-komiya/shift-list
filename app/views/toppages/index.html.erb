@@ -1,0 +1,62 @@
+<% if user_signed_in? %>
+  <%if current_user.admin? %>
+    <% if @days.any? %>
+      <h2>日付一覧</h2>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>日付</th>
+              <th>希望数</th>
+              <th>リンク</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @days.each do |day| %>
+              <tr>
+                <td><%= day.designated_on.strftime("%m月%d日(#{@dw[day.designated_on.wday]})") %></td>
+                <td><span class="badge badge-secondary"><%= @shifts.where(designated_on: day.designated_on).count %></span></td>
+                <td><%= link_to "登録画面へ", shifts_path(date: day.designated_on) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <%= paginate @days %>
+     <% end %>
+  <% else %>
+    <h1><%= link_to "シフト希望日時提出フォームへ", shifts_path %></h1>
+      <% if @shifts.any? %>
+      <h2>確定済みシフト</h2>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>日付</th>
+              <th>時間帯</th>
+              <th>名前</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @shifts.each do |shift| %>
+              <tr>
+                <td><%= shift.designated_on.strftime("%m月%d日(#{@dw[shift.designated_on.wday]})") %></td>
+                <td><%= "#{@ki[shift.kind]}" %></td>
+                <td><%= shift.user.username %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <%= paginate @shifts %>
+     <% end %>
+  <% end %>
+
+<% else %>
+  <div class="jumbotron text-center">
+    <div class="container">
+      <h1 class="jumbotron-heading">シフト希望日時提出用</h1>
+      <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+      <p>
+        <%= link_to 'Sign up', signup_path, class: 'btn btn-primary my-2' %>
+        <%= link_to 'Login', login_path, class: 'btn btn-primary my-2' %>
+      </p>
+    </div>
+  </div>
+<% end %>
