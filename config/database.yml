@@ -48,7 +48,9 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
   database: shifts-lists_production
   username: shifts-lists
   password: <%= ENV['SHIFTS-LISTS_DATABASE_PASSWORD'] %>
