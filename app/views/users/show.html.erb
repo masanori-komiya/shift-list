@@ -1,0 +1,31 @@
+<% provide(:title, @user.username) %>
+<h1>page (<%= @user.username %>)</h1>
+  <h2>登録済みの希望日時</h2>
+  <% if @shifts.any? %>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>日付</th>
+          <th>時間帯</th>
+          <th>action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @shifts.each do |shift| %>
+          <tr>
+            <td><%= shift.designated_on.strftime("%m月%d日(#{@dw[shift.designated_on.wday]})") %></td>
+            <td><%= @ki[shift.kind] %></td>
+            <td>
+              <% if shift.determine == false %>
+              <% else %>
+                <span class="badge badge-success">確定済み</span>
+            　<% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= paginate @shifts %>
+  <% else %>
+  <div>なし</div>
+  <% end %>

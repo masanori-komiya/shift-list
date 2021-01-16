@@ -4,7 +4,7 @@ class ShiftsController < ApplicationController
        @shifts = Shift.where(designated_on: params[:date]).order("designated_on").order("kind")
        @day = params[:date]
     else
-       @shifts = current_user.shifts.order(designated_on: "DESC").order("designated_on").order("kind").page(params[:page]).per(6)
+       @shifts = current_user.shifts.order(id: "DESC").order("designated_on").order("kind").page(params[:page]).per(6)
     end
     @shift = Shift.new
     @count = 0
@@ -30,7 +30,7 @@ class ShiftsController < ApplicationController
         Shift.find(id).update(determine: 1)
       }
       flash[:success] = '登録されました'
-      redirect_to action: 'index'
+      redirect_back(fallback_location: root_path) 
     end
   end
   

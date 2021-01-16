@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  
   before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller? 
   before_action :set_var
@@ -11,6 +12,12 @@ class ApplicationController < ActionController::Base
     # account_updateのときに、nameをストロングパラメータに追加する
       devise_parameter_sanitizer.permit(:account_update, keys: [:username, :email])
     end
+    
+   def admin_user?
+     unless current_user.admin?
+       redirect_to root_path
+     end
+   end
     
     def set_var
       @dw = ["日", "月", "火", "水", "木", "金", "土"]
