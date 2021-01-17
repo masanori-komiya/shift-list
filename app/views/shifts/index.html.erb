@@ -32,26 +32,27 @@
      <%= f.label :designated_on, '日付' %>
      <%= f.date_field :designated_on,{ class: 'form-control col-sm-5' , required: true } %>
     </div>
-    <label class="control-label">時間帯</label></br>
-    <div class="form-check form-check-inline">
-    <label class="form-check-label" ><%= check_box "type", "1"  %> S1</label>
+    <div class="form-group">
+      <label class="control-label">時間帯</label></br>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label" ><%= check_box "type", "1"  %> S1</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label" ><%= check_box "type", "2"  %> S2</label>
+      </div>
+        <div class="form-check form-check-inline">
+      <label class="form-check-label" ><%= check_box "type", "3" %> A</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label" ><%= check_box "type", "4" %> B</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label" ><%= check_box "type", "5" %> C</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <label class="form-check-label" ><%= check_box "type", "6" %> 日曜特訓</label>
+      </div>
     </div>
-    <div class="form-check form-check-inline">
-    <label class="form-check-label" ><%= check_box "type", "2"  %> S2</label>
-    </div>
-    <div class="form-check form-check-inline">
-    <label class="form-check-label" ><%= check_box "type", "3" %> A</label>
-    </div>
-    <div class="form-check form-check-inline">
-    <label class="form-check-label" ><%= check_box "type", "4" %> B</label>
-    </div>
-    <div class="form-check form-check-inline">
-    <label class="form-check-label" ><%= check_box "type", "5" %> C</label>
-    </div>
-    <div class="form-check form-check-inline">
-    <label class="form-check-label" ><%= check_box "type", "6" %> 日曜特訓</label>
-    </div>
-    
     <div class="form-group">
       <%= f.submit '送信', class: 'btn btn-primary' %>
     </div>
