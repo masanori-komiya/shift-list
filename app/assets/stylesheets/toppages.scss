@@ -2,7 +2,7 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 h1{
-font-size: 6vw;
+font-size: min(6vw, 30px);
 }
 h2{
 font-size: 20px;
